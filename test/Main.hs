@@ -150,16 +150,18 @@ wholeAPI = describe "Mockchain API (best practices)" $ do
     it "but not others" $ do
         withServantServer api server $ \base -> do
             serverDoesntSatisfy api base args unimplemented
+    it "isn't slow" $ do
+        withServantServer api server $ \base ->
+            serverSatisfies api base args speed
   where
-    implemented = unauthorizedContainsWWWAuthenticate <%> not500
-        <%> notLongerThan 150000000
-        <%> mempty
+    implemented = unauthorizedContainsWWWAuthenticate <%> not500 <%> mempty
     unimplemented = getsHaveCacheControlHeader <%> onlyJsonObjects
         <%> notAllowedContainsAllowHeader <%> honoursAcceptHeader
         <%> getsHaveLastModifiedHeader <%> headsHaveCacheControlHeader
         <%> createContainsValidLocation
         -- ^ This one should pass but doesn't, I haven't figured out why yet
         <%> mempty
+    speed = notLongerThan 200000000 <%> mempty
 
 
 ------------------------------------------------------------------------------
