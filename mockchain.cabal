@@ -1,0 +1,104 @@
+cabal-version:       >=1.10
+name:                mockchain
+version:             0.1.0.0
+synopsis:            Mock Blockchain API
+license:             AllRightsReserved
+author:              Shane
+maintainer:          me@shane.sh
+category:            Finance
+build-type:          Simple
+
+library
+  exposed-modules:
+    Mockchain.API
+    Mockchain.Server
+    Mockchain.Transaction
+
+  other-modules:
+    Mockchain.API.Errors
+
+  build-depends:
+    aeson,
+    base < 5,
+    bytestring,
+    cryptohash-sha512,
+    deepseq,
+    generic-lens,
+    hashable,
+    hashable-time,
+    http-api-data,
+    lens,
+    monad-validate,
+    mtl,
+    network-uri,
+    QuickCheck,
+    quickcheck-instances,
+    random,
+    servant,
+    servant-server,
+    stm,
+    time,
+    transformers,
+    unordered-containers,
+    uuid-types
+
+  hs-source-dirs:
+    src
+
+  default-language:
+    Haskell2010
+
+  ghc-options: -Wall
+
+executable mockchain
+  main-is:
+    Main.hs
+
+  build-depends:
+    base < 5,
+    mockchain,
+    optparse-applicative,
+    servant-server,
+    transformers,
+    warp
+
+  hs-source-dirs:
+    bin
+
+  default-language:
+    Haskell2010
+
+  ghc-options: -Wall
+
+test-suite mockchain-tests
+  type:
+    exitcode-stdio-1.0
+
+  main-is:
+    Main.hs
+
+  build-depends:
+    base < 5,
+    generic-lens,
+    hspec,
+    http-client,
+    http-types,
+    lens,
+    mockchain,
+    QuickCheck,
+    random,
+    servant,
+    servant-client,
+    servant-client-core,
+    servant-quickcheck,
+    servant-server,
+    transformers,
+    warp
+
+  hs-source-dirs:
+    test
+
+  default-language:
+    Haskell2010
+
+  ghc-options: -Wall
